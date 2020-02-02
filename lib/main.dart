@@ -45,7 +45,9 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text('Binary Decimal Converter'),
       ),
-      body: Center(
+      body: Builder(
+        builder: (BuildContext context) {
+        return Center(
         child: new Container(
           padding: EdgeInsets.all(15),
           child: Column(
@@ -54,16 +56,30 @@ class _MyHomePageState extends State<MyHomePage> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Container(
-                  child: Text("Binary",
+                  child: Row(
+                    children: <Widget>[
+                      Text("Binary",
                       style: TextStyle(
                           color: Colors.grey[800],
                           fontWeight: FontWeight.bold,
                           fontSize: 20)),
+                      FlatButton(
+                        child: Icon(Icons.content_copy),
+                        onPressed: () {
+                          Clipboard.setData(ClipboardData(
+                            text: binaryController.text
+                            ));
+                            Scaffold.of(context).showSnackBar(SnackBar(
+                            content: Text('Binary number copied to clipboard!'),
+                            duration: Duration(milliseconds: 700),
+                          ));
+                        },
+                        )
+                    ],
+                  )
                 ),
               ),
-              new SizedBox(
-                height: 7,
-              ),
+
               new TextField(
                 decoration: new InputDecoration(
                   hintText: "Binary Number",
@@ -102,16 +118,30 @@ class _MyHomePageState extends State<MyHomePage> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Container(
-                  child: Text("Decimal",
+                  child: Row(
+                    children: <Widget>[
+                      Text("Decimal",
                       style: TextStyle(
                           color: Colors.grey[800],
                           fontWeight: FontWeight.bold,
                           fontSize: 20)),
+                      FlatButton(
+                        child: Icon(Icons.content_copy),
+                        onPressed: () {
+                          Clipboard.setData(ClipboardData(
+                            text: decimalController.text
+                            ));
+                            Scaffold.of(context).showSnackBar(SnackBar(
+                            content: Text('Decimal number copied to clipboard!'),
+                            duration: Duration(milliseconds: 700),
+                          ));
+                        },
+                        )
+                    ],
+                  )
                 ),
               ),
-              new SizedBox(
-                height: 7,
-              ),
+
 
               new TextField(
                 decoration: new InputDecoration(
@@ -155,16 +185,30 @@ class _MyHomePageState extends State<MyHomePage> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Container(
-                  child: Text("Hex",
+                  child: Row(
+                    children: <Widget>[
+                      Text("Hex",
                       style: TextStyle(
                           color: Colors.grey[800],
                           fontWeight: FontWeight.bold,
                           fontSize: 20)),
+                      FlatButton(
+                        child: Icon(Icons.content_copy),
+                        onPressed: () {
+                          Clipboard.setData(ClipboardData(
+                            text: hexController.text
+                            ));
+                          Scaffold.of(context).showSnackBar(SnackBar(
+                            content: Text('Hex number copied to clipboard!'),
+                            duration: Duration(milliseconds: 700),
+                          ));
+                        },
+                        )
+                    ],
+                  )
                 ),
               ),
-              new SizedBox(
-                height: 7,
-              ),
+
               new TextField(
                 decoration: new InputDecoration(
                   hintText: "Hex Number",
@@ -195,13 +239,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   updateNumbers(text, 2);
                 },
               ),
+              new SizedBox(height: 200,),
+              new Text("Maximum decimal number is 9223372036854775807")
             ],
           ),
         ),
-      ),
+      );})
     );
   }
-
   void updateNumbers(String sayik, int bintodec) {
     if (bintodec == 2) {
       if(hexController.text.isEmpty){
