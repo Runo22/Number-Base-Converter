@@ -216,11 +216,11 @@ class _MyHomePageState extends State<MyHomePage> {
                       } else if (!regxhex.hasMatch(text)) {
                         checkifhex(text);
                       }
-                      updateNumbers(text, 2);
+                      updateNumbers(hexController.text, 2);
                     },
                   ),
                   new SizedBox(
-                    height: 200,
+                    height: 20,
                   ),
                   new Text("Maximum decimal number is 9223372036854775807")
                 ],
