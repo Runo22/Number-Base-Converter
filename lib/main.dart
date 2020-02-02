@@ -41,223 +41,206 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffead383),
-      appBar: AppBar(
-        title: Text('Binary Decimal Converter'),
-      ),
-      body: Builder(
-        builder: (BuildContext context) {
-        return Center(
-        child: new Container(
-          padding: EdgeInsets.all(15),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Container(
-                  child: Row(
-                    children: <Widget>[
-                      Text("Binary",
-                      style: TextStyle(
-                          color: Colors.grey[800],
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20)),
-                      FlatButton(
-                        child: Icon(Icons.content_copy),
-                        onPressed: () {
-                          Clipboard.setData(ClipboardData(
-                            text: binaryController.text
-                            ));
-                            Scaffold.of(context).showSnackBar(SnackBar(
-                            content: Text('Binary number copied to clipboard!'),
-                            duration: Duration(milliseconds: 700),
-                          ));
-                        },
-                        )
-                    ],
-                  )
-                ),
-              ),
-
-              new TextField(
-                decoration: new InputDecoration(
-                  hintText: "Binary Number",
-                  contentPadding:
-                      const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blueGrey[700]),
-                    borderRadius: BorderRadius.circular(25.7),
-                  ),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blueGrey[700]),
-                    borderRadius: BorderRadius.circular(25.7),
-                  ),
-                  filled: true,
-                  fillColor: Colors.blueGrey,
-                ),
-                controller: binaryController,
-                keyboardType: TextInputType.number,
-                onChanged: (text) {
-                  if (text.isEmpty) {
-                    setState(() {
-                      decimalController.text = "";
-                      hexController.text = "";
-                    });
-                  }
-                  else if (!regxbinary.hasMatch(text)) {
-                    checkifbinary(text);
-                  }
-                  updateNumbers(binaryController.text, 0);
-                },
-              ),
-
-              new SizedBox(
-                height: 25,
-              ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Container(
-                  child: Row(
-                    children: <Widget>[
-                      Text("Decimal",
-                      style: TextStyle(
-                          color: Colors.grey[800],
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20)),
-                      FlatButton(
-                        child: Icon(Icons.content_copy),
-                        onPressed: () {
-                          Clipboard.setData(ClipboardData(
-                            text: decimalController.text
-                            ));
-                            Scaffold.of(context).showSnackBar(SnackBar(
-                            content: Text('Decimal number copied to clipboard!'),
-                            duration: Duration(milliseconds: 700),
-                          ));
-                        },
-                        )
-                    ],
-                  )
-                ),
-              ),
-
-
-              new TextField(
-                decoration: new InputDecoration(
-                  hintText: "Decimal Number",
-                  contentPadding:
-                      const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blueGrey[700]),
-                    borderRadius: BorderRadius.circular(25.7),
-                  ),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blueGrey[700]),
-                    borderRadius: BorderRadius.circular(25.7),
-                  ),
-                  filled: true,
-                  fillColor: Colors.blueGrey,
-                ),
-                controller: decimalController,
-                keyboardType: TextInputType.number,
-                onChanged: (text) {
-                  if (text.isEmpty) {
-                    setState(() {
-                      binaryController.text = "";
-                      hexController.text = "";
-                    });
-                  }
-                  updateNumbers(text, 1);
-                },
-              ),
-
-
-
-
-
-              new SizedBox(
-                height: 25,
-              ),
-
-
-
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Container(
-                  child: Row(
-                    children: <Widget>[
-                      Text("Hex",
-                      style: TextStyle(
-                          color: Colors.grey[800],
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20)),
-                      FlatButton(
-                        child: Icon(Icons.content_copy),
-                        onPressed: () {
-                          Clipboard.setData(ClipboardData(
-                            text: hexController.text
-                            ));
-                          Scaffold.of(context).showSnackBar(SnackBar(
-                            content: Text('Hex number copied to clipboard!'),
-                            duration: Duration(milliseconds: 700),
-                          ));
-                        },
-                        )
-                    ],
-                  )
-                ),
-              ),
-
-              new TextField(
-                decoration: new InputDecoration(
-                  hintText: "Hex Number",
-                  contentPadding:
-                      const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blueGrey[700]),
-                    borderRadius: BorderRadius.circular(25.7),
-                  ),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blueGrey[700]),
-                    borderRadius: BorderRadius.circular(25.7),
-                  ),
-                  filled: true,
-                  fillColor: Colors.blueGrey,
-                ),
-                controller: hexController,
-                onChanged: (text) {
-                  if (text.isEmpty) {
-                    setState(() {
-                      decimalController.text = "";
-                      binaryController.text = "";
-                    });
-                  }
-                  else if (!regxhex.hasMatch(text)) {
-                    checkifhex(text);
-                  }
-                  updateNumbers(text, 2);
-                },
-              ),
-              new SizedBox(height: 200,),
-              new Text("Maximum decimal number is 9223372036854775807")
-            ],
-          ),
+        backgroundColor: Color(0xffead383),
+        appBar: AppBar(
+          title: Text('Binary Decimal Converter'),
         ),
-      );})
-    );
+        body: Builder(builder: (BuildContext context) {
+          return Center(
+            child: new Container(
+              padding: EdgeInsets.all(15),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                        child: Row(
+                      children: <Widget>[
+                        Text("Binary",
+                            style: TextStyle(
+                                color: Colors.grey[800],
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20)),
+                        FlatButton(
+                          child: Icon(Icons.content_copy),
+                          onPressed: () {
+                            Clipboard.setData(
+                                ClipboardData(text: binaryController.text));
+                            Scaffold.of(context).showSnackBar(SnackBar(
+                              content:
+                                  Text('Binary number copied to clipboard!'),
+                              duration: Duration(milliseconds: 700),
+                            ));
+                          },
+                        )
+                      ],
+                    )),
+                  ),
+                  new TextField(
+                    decoration: new InputDecoration(
+                      hintText: "Binary Number",
+                      contentPadding: const EdgeInsets.only(
+                          left: 14.0, bottom: 8.0, top: 8.0),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blueGrey[700]),
+                        borderRadius: BorderRadius.circular(25.7),
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blueGrey[700]),
+                        borderRadius: BorderRadius.circular(25.7),
+                      ),
+                      filled: true,
+                      fillColor: Colors.blueGrey,
+                    ),
+                    controller: binaryController,
+                    keyboardType: TextInputType.number,
+                    onChanged: (text) {
+                      if (text.isEmpty) {
+                        setState(() {
+                          decimalController.text = "";
+                          hexController.text = "";
+                        });
+                      } else if (!regxbinary.hasMatch(text)) {
+                        checkifbinary(text);
+                      }
+                      updateNumbers(binaryController.text, 0);
+                    },
+                  ),
+                  new SizedBox(
+                    height: 25,
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                        child: Row(
+                      children: <Widget>[
+                        Text("Decimal",
+                            style: TextStyle(
+                                color: Colors.grey[800],
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20)),
+                        FlatButton(
+                          child: Icon(Icons.content_copy),
+                          onPressed: () {
+                            Clipboard.setData(
+                                ClipboardData(text: decimalController.text));
+                            Scaffold.of(context).showSnackBar(SnackBar(
+                              content:
+                                  Text('Decimal number copied to clipboard!'),
+                              duration: Duration(milliseconds: 700),
+                            ));
+                          },
+                        )
+                      ],
+                    )),
+                  ),
+                  new TextField(
+                    decoration: new InputDecoration(
+                      hintText: "Decimal Number",
+                      contentPadding: const EdgeInsets.only(
+                          left: 14.0, bottom: 8.0, top: 8.0),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blueGrey[700]),
+                        borderRadius: BorderRadius.circular(25.7),
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blueGrey[700]),
+                        borderRadius: BorderRadius.circular(25.7),
+                      ),
+                      filled: true,
+                      fillColor: Colors.blueGrey,
+                    ),
+                    controller: decimalController,
+                    keyboardType: TextInputType.number,
+                    onChanged: (text) {
+                      if (text.isEmpty) {
+                        setState(() {
+                          binaryController.text = "";
+                          hexController.text = "";
+                        });
+                      }
+                      updateNumbers(text, 1);
+                    },
+                  ),
+                  new SizedBox(
+                    height: 25,
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                        child: Row(
+                      children: <Widget>[
+                        Text("Hex",
+                            style: TextStyle(
+                                color: Colors.grey[800],
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20)),
+                        FlatButton(
+                          child: Icon(Icons.content_copy),
+                          onPressed: () {
+                            Clipboard.setData(
+                                ClipboardData(text: hexController.text));
+                            Scaffold.of(context).showSnackBar(SnackBar(
+                              content: Text('Hex number copied to clipboard!'),
+                              duration: Duration(milliseconds: 700),
+                            ));
+                          },
+                        )
+                      ],
+                    )),
+                  ),
+                  new TextField(
+                    decoration: new InputDecoration(
+                      hintText: "Hex Number",
+                      contentPadding: const EdgeInsets.only(
+                          left: 14.0, bottom: 8.0, top: 8.0),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blueGrey[700]),
+                        borderRadius: BorderRadius.circular(25.7),
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blueGrey[700]),
+                        borderRadius: BorderRadius.circular(25.7),
+                      ),
+                      filled: true,
+                      fillColor: Colors.blueGrey,
+                    ),
+                    controller: hexController,
+                    onChanged: (text) {
+                      if (text.isEmpty) {
+                        setState(() {
+                          decimalController.text = "";
+                          binaryController.text = "";
+                        });
+                      } else if (!regxhex.hasMatch(text)) {
+                        checkifhex(text);
+                      }
+                      updateNumbers(text, 2);
+                    },
+                  ),
+                  new SizedBox(
+                    height: 200,
+                  ),
+                  new Text("Maximum decimal number is 9223372036854775807")
+                ],
+              ),
+            ),
+          );
+        }));
   }
+
   void updateNumbers(String sayik, int bintodec) {
     if (bintodec == 2) {
-      if(hexController.text.isEmpty){
+      if (hexController.text.isEmpty) {
         binaryController.text = "";
         decimalController.text = "";
-      }else {
+      } else {
         String sayit = Hex.decode(sayik).toString();
-      decimalController.text = sayit;
-      updateNumbers(sayit, 11);
+        decimalController.text = sayit;
+        updateNumbers(sayit, 11);
       }
-    } else{
+    } else {
       print("11");
       int sayi = int.parse(sayik);
       if (bintodec == 0) {
@@ -266,13 +249,13 @@ class _MyHomePageState extends State<MyHomePage> {
         print("geleyo");
         if (bintodec == 1) {
           setState(() {
-          hexController.text = Hex.encode(sayi).toString();
+            hexController.text = Hex.encode(sayi).toString();
           });
         }
         print("here");
         binaryController.text = "";
         fromDecimal(sayi);
-      }  
+      }
     }
   }
 
@@ -301,20 +284,19 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-
   void checkifbinary(String gik) {
     setState(() {
-    binaryController.text = gik.substring(0, gik.length - 1);
-    binaryController.selection = TextSelection.fromPosition(
-      TextPosition(offset: binaryController.text.length));
+      binaryController.text = gik.substring(0, gik.length - 1);
+      binaryController.selection = TextSelection.fromPosition(
+          TextPosition(offset: binaryController.text.length));
     });
   }
 
   void checkifhex(String gok) {
     setState(() {
-    hexController.text = gok.substring(0, gok.length - 1);
-    hexController.selection = TextSelection.fromPosition(
-      TextPosition(offset: hexController.text.length));
+      hexController.text = gok.substring(0, gok.length - 1);
+      hexController.selection = TextSelection.fromPosition(
+          TextPosition(offset: hexController.text.length));
     });
   }
 }
