@@ -241,18 +241,15 @@ class _MyHomePageState extends State<MyHomePage> {
         updateNumbers(sayit, 11);
       }
     } else {
-      print("11");
       int sayi = int.parse(sayik);
       if (bintodec == 0) {
         fromBinary(sayi);
       } else if (bintodec == 1 || bintodec == 11) {
-        print("geleyo");
         if (bintodec == 1) {
           setState(() {
             hexController.text = Hex.encode(sayi).toString();
           });
         }
-        print("here");
         binaryController.text = "";
         fromDecimal(sayi);
       }
