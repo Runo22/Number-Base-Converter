@@ -1,7 +1,7 @@
-# Number-Base-Converter
--binary
--decimal
--hexadecimal
+# Number-Base-Converter\n
+-binary \n
+-decimal\n
+-hexadecimal\n
 
-in future:
+in future:\n
 octal
