@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:convert_hex/convert_hex.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -26,7 +27,9 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final binaryController = TextEditingController();
   final decimalController = TextEditingController();
+  final hexController = TextEditingController();
   final regxbinary = RegExp(r'^[0-1]{1,}$');
+  final regxhex = RegExp(r'^[0-9a-f]+$');
 
   @override
   void dispose() {
@@ -83,14 +86,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   if (text.isEmpty) {
                     setState(() {
                       decimalController.text = "";
+                      hexController.text = "";
                     });
                   }
                   else if (!regxbinary.hasMatch(text)) {
                     checkifbinary(text);
                   }
-                  updateNumbers(text, 0);
+                  updateNumbers(binaryController.text, 0);
                 },
               ),
+
               new SizedBox(
                 height: 25,
               ),
@@ -107,6 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
               new SizedBox(
                 height: 7,
               ),
+
               new TextField(
                 decoration: new InputDecoration(
                   hintText: "Decimal Number",
@@ -129,9 +135,64 @@ class _MyHomePageState extends State<MyHomePage> {
                   if (text.isEmpty) {
                     setState(() {
                       binaryController.text = "";
+                      hexController.text = "";
                     });
                   }
                   updateNumbers(text, 1);
+                },
+              ),
+
+
+
+
+
+              new SizedBox(
+                height: 25,
+              ),
+
+
+
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Container(
+                  child: Text("Hex",
+                      style: TextStyle(
+                          color: Colors.grey[800],
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20)),
+                ),
+              ),
+              new SizedBox(
+                height: 7,
+              ),
+              new TextField(
+                decoration: new InputDecoration(
+                  hintText: "Hex Number",
+                  contentPadding:
+                      const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.blueGrey[700]),
+                    borderRadius: BorderRadius.circular(25.7),
+                  ),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.blueGrey[700]),
+                    borderRadius: BorderRadius.circular(25.7),
+                  ),
+                  filled: true,
+                  fillColor: Colors.blueGrey,
+                ),
+                controller: hexController,
+                onChanged: (text) {
+                  if (text.isEmpty) {
+                    setState(() {
+                      decimalController.text = "";
+                      binaryController.text = "";
+                    });
+                  }
+                  else if (!regxhex.hasMatch(text)) {
+                    checkifhex(text);
+                  }
+                  updateNumbers(text, 2);
                 },
               ),
             ],
@@ -141,17 +202,36 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void updateNumbers(sayik, bintodec) {
-    int sayi = int.parse(sayik);
-    if (bintodec == 0) {
-      binaryToDecimal(sayi);
-    } else if (bintodec == 1) {
-      binaryController.text = "";
-      decimalToBinary(sayi);
+  void updateNumbers(String sayik, int bintodec) {
+    if (bintodec == 2) {
+      if(hexController.text.isEmpty){
+        binaryController.text = "";
+        decimalController.text = "";
+      }else {
+        String sayit = Hex.decode(sayik).toString();
+      decimalController.text = sayit;
+      updateNumbers(sayit, 11);
+      }
+    } else{
+      print("11");
+      int sayi = int.parse(sayik);
+      if (bintodec == 0) {
+        fromBinary(sayi);
+      } else if (bintodec == 1 || bintodec == 11) {
+        print("geleyo");
+        if (bintodec == 1) {
+          setState(() {
+          hexController.text = Hex.encode(sayi).toString();
+          });
+        }
+        print("here");
+        binaryController.text = "";
+        fromDecimal(sayi);
+      }  
     }
   }
 
-  binaryToDecimal(int binary) {
+  fromBinary(int binary) {
     int decimal = 0;
     int i = 0;
     while (binary != 0) {
@@ -162,12 +242,13 @@ class _MyHomePageState extends State<MyHomePage> {
     }
     setState(() {
       decimalController.text = decimal.toString();
+      hexController.text = Hex.encode(decimal).toString();
     });
   }
 
-  decimalToBinary(int n) {
+  fromDecimal(int n) {
     if (n > 1) {
-      decimalToBinary(n ~/ 2);
+      fromDecimal(n ~/ 2);
     }
     setState(() {
       String a = binaryController.text;
@@ -175,11 +256,20 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+
   void checkifbinary(String gik) {
     setState(() {
     binaryController.text = gik.substring(0, gik.length - 1);
     binaryController.selection = TextSelection.fromPosition(
       TextPosition(offset: binaryController.text.length));
+    });
+  }
+
+  void checkifhex(String gok) {
+    setState(() {
+    hexController.text = gok.substring(0, gok.length - 1);
+    hexController.selection = TextSelection.fromPosition(
+      TextPosition(offset: hexController.text.length));
     });
   }
 }
